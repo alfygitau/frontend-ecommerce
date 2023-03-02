@@ -44,10 +44,22 @@ let getPopularProducts = async (tagname) => {
   return data;
 };
 
+let getSpecialProducts = async (tagname) => {
+  let res = await fetch(`${base_url}/api/product?tags=${tagname}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  let data = await res.json();
+  return data;
+};
+
 const productService = {
   getAllProducts,
   getSingleProduct,
   getFeaturedProducts,
-  getPopularProducts
+  getPopularProducts,
+  getSpecialProducts
 };
 export default productService;

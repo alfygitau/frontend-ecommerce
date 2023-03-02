@@ -35,6 +35,7 @@ import SpecialProductCard from "../components/cards/SpecialProductCard";
 import {
   getFeaturedProducts,
   getPopularProducts,
+  getSpecialProducts,
 } from "../features/products/productSlice";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -42,13 +43,14 @@ import { useDispatch, useSelector } from "react-redux";
 const Homepage = () => {
   let dispatch = useDispatch();
 
-  const { featuredProducts, popularProducts } = useSelector(
+  const { featuredProducts, popularProducts, specialProducts } = useSelector(
     (state) => state.products
   );
 
   useEffect(() => {
     dispatch(getFeaturedProducts("featured"));
     dispatch(getPopularProducts("popular"));
+    dispatch(getSpecialProducts("special"));
   }, [dispatch]);
   return (
     <>
@@ -174,7 +176,7 @@ const Homepage = () => {
           </div>
         </div>
       </section>
-      <section className="home-wrapper-2 py-5 family">
+      <section className="home-wrapper-2 py-2 family">
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">
@@ -240,7 +242,7 @@ const Homepage = () => {
           </div>
         </div>
       </section>
-      <section className="featured-wrapper py-5 home-wrapper-2 family">
+      <section className="featured-wrapper py-2 home-wrapper-2 family">
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">
@@ -256,6 +258,9 @@ const Homepage = () => {
       <section className="famous-wrapper py-2 home-wrapper-2 family">
         <div className="container-xxl">
           <div className="row">
+            <div className="col-12">
+              <h3 className="section-heading">Famous Collection</h3>
+            </div>
             <div className="col-3">
               <div className="famous-card position-relative">
                 <img src={watch} alt="watch" className="img-fluid" />
@@ -303,7 +308,7 @@ const Homepage = () => {
           </div>
         </div>
       </section>
-      <section className="special-wrapper py-5 home-wrapper-2">
+      <section className="special-wrapper py-2 home-wrapper-2">
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">
@@ -311,9 +316,10 @@ const Homepage = () => {
             </div>
           </div>
           <div className="row">
-            <SpecialProductCard />
-            <SpecialProductCard />
-            <SpecialProductCard />
+            {specialProducts &&
+              specialProducts.map((product) => (
+                <SpecialProductCard key={product?._id} product={product} />
+              ))}
           </div>
         </div>
       </section>
@@ -325,7 +331,7 @@ const Homepage = () => {
             </div>
             {popularProducts &&
               popularProducts.map((product) => (
-                <ProductCard key={product._id} product={product} />
+                <ProductCard key={product?._id} product={product} />
               ))}
           </div>
         </div>
