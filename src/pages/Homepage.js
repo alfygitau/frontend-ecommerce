@@ -131,7 +131,7 @@ const Homepage = () => {
           </div>
         </div>
       </section>
-      <section className="home-wrapper-2 py-5">
+      <section className="home-wrapper-2 py-2">
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">

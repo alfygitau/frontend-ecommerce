@@ -10,7 +10,10 @@ import { TbGitCompare } from "react-icons/tb";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getProduct } from "../features/products/productSlice";
+import {
+  getProduct,
+  getSpecificCategoryProducts,
+} from "../features/products/productSlice";
 import ReactImageMagnify from "react-image-magnify";
 
 const Product = () => {
@@ -19,21 +22,17 @@ const Product = () => {
   // console.log(id)
   let dispatch = useDispatch();
 
-  const { product } = useSelector((state) => state.products);
+  const { product, productsOfCategory } = useSelector(
+    (state) => state.products
+  );
 
   useEffect(() => {
     dispatch(getProduct(id));
   }, [id, dispatch]);
 
-  let link =
-    "https://riogiftshop.com/wp-content/uploads/2021/04/3b12fbde-4693-4d60-87d5-3214e88efe96.jpg";
-
-  const props = {
-    width: 600,
-    height: 500,
-    zoomWidth: 600,
-    img: product?.images[0]?.url,
-  };
+  useEffect(() => {
+    dispatch(getSpecificCategoryProducts(product?.category));
+  }, [product, dispatch]);
 
   const copyToClipboard = (text) => {
     console.log("text", text);
@@ -70,20 +69,6 @@ const Product = () => {
                   enlargedImageContainerClassName="js-image-zoom__zoomed-image"
                 />
               </div>
-              {/* <div className="other-product-images d-flex flex-wrap gap-15 justify-content-center">
-                <div>
-                  <img src={link} className="img-fluid" alt="other-images" />
-                </div>
-                <div>
-                  <img src={link} className="img-fluid" alt="other-images" />
-                </div>
-                <div>
-                  <img src={link} className="img-fluid" alt="other-images" />
-                </div>
-                <div>
-                  <img src={link} className="img-fluid" alt="other-images" />
-                </div>
-              </div> */}
             </div>
             <div className="col-6">
               <div className="main-product-details">
@@ -316,10 +301,13 @@ const Product = () => {
             <div className="col-12">
               <h3 className="section-heading">You May Also Like</h3>
             </div>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            {productsOfCategory &&
+              productsOfCategory
+                .slice(0, 4)
+                .filter((p) => p._id !== product._id)
+                .map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
           </div>
         </div>
       </section>
