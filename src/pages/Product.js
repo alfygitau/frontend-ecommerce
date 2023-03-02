@@ -70,7 +70,7 @@ const Product = () => {
                   enlargedImageContainerClassName="js-image-zoom__zoomed-image"
                 />
               </div>
-              <div className="other-product-images d-flex flex-wrap gap-15 justify-content-center">
+              {/* <div className="other-product-images d-flex flex-wrap gap-15 justify-content-center">
                 <div>
                   <img src={link} className="img-fluid" alt="other-images" />
                 </div>
@@ -83,7 +83,7 @@ const Product = () => {
                 <div>
                   <img src={link} className="img-fluid" alt="other-images" />
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="col-6">
               <div className="main-product-details">
