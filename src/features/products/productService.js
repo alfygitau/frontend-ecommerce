@@ -22,5 +22,32 @@ let getSingleProduct = async (id) => {
   return data;
 };
 
-const productService = { getAllProducts, getSingleProduct };
+let getFeaturedProducts = async (tagname) => {
+  let res = await fetch(`${base_url}/api/product?tags=${tagname}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  let data = await res.json();
+  return data;
+};
+
+let getPopularProducts = async (tagname) => {
+  let res = await fetch(`${base_url}/api/product?tags=${tagname}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  let data = await res.json();
+  return data;
+};
+
+const productService = {
+  getAllProducts,
+  getSingleProduct,
+  getFeaturedProducts,
+  getPopularProducts
+};
 export default productService;

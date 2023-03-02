@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import mainBanner from "../assets/images/main-banner-1.jpg";
 import catBanner1 from "../assets/images/catbanner-01.jpg";
 import catBanner2 from "../assets/images/catbanner-02.jpg";
@@ -32,8 +32,24 @@ import famous4 from "../assets/images/famous-4.webp";
 import BlogCard from "../components/cards/BlogCard";
 import ProductCard from "../components/cards/ProductCard";
 import SpecialProductCard from "../components/cards/SpecialProductCard";
+import {
+  getFeaturedProducts,
+  getPopularProducts,
+} from "../features/products/productSlice";
+
+import { useDispatch, useSelector } from "react-redux";
 
 const Homepage = () => {
+  let dispatch = useDispatch();
+
+  const { featuredProducts, popularProducts } = useSelector(
+    (state) => state.products
+  );
+
+  useEffect(() => {
+    dispatch(getFeaturedProducts("featured"));
+    dispatch(getPopularProducts("popular"));
+  }, [dispatch]);
   return (
     <>
       <section className="home-wrapper-1 py-5">
@@ -230,10 +246,10 @@ const Homepage = () => {
             <div className="col-12">
               <h3 className="section-heading">Featured Collection</h3>
             </div>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            {featuredProducts &&
+              featuredProducts.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
           </div>
         </div>
       </section>
@@ -307,10 +323,10 @@ const Homepage = () => {
             <div className="col-12">
               <h3 className="section-heading">Our Popular Products</h3>
             </div>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            {popularProducts &&
+              popularProducts.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
           </div>
         </div>
       </section>

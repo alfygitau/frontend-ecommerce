@@ -33,6 +33,30 @@ export const getProduct = createAsyncThunk(
   }
 );
 
+export const getFeaturedProducts = createAsyncThunk(
+  "featured-products",
+  async (tag, thunkAPI) => {
+    try {
+      return await productService.getFeaturedProducts(tag);
+    } catch (error) {
+      const { message } = error.response.data;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getPopularProducts = createAsyncThunk(
+  "popular-products",
+  async (tag, thunkAPI) => {
+    try {
+      return await productService.getFeaturedProducts(tag);
+    } catch (error) {
+      const { message } = error.response.data;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "all-products",
   initialState,
@@ -61,6 +85,32 @@ const productSlice = createSlice({
         state.product = action.payload;
       })
       .addCase(getProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getFeaturedProducts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getFeaturedProducts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.featuredProducts = action.payload;
+      })
+      .addCase(getFeaturedProducts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getPopularProducts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getPopularProducts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.popularProducts = action.payload;
+      })
+      .addCase(getPopularProducts.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
