@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
 import watch from "../assets/images/watch.jpg";
@@ -10,8 +10,18 @@ import gr4 from "../assets/images/gr4.svg";
 import ProductCard from "../components/cards/ProductCard";
 import Color from "../components/Color";
 
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProducts } from "../features/products/productSlice";
+
 const Store = () => {
   let [grid, setGrid] = useState(4);
+  let dispatch = useDispatch();
+
+  const { products } = useSelector((state) => state.products);
+
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, [dispatch]);
   return (
     <>
       <Meta title="Our Store" />
@@ -115,19 +125,13 @@ const Store = () => {
                 <div>
                   <div className="product-tags d-flex align-items-center flex-wrap gap-10">
                     <span className="badge bg-light text-secondary rounded-3 py-2 px-3">
-                      Headphone
+                      Featured
                     </span>
                     <span className="badge bg-light text-secondary rounded-3 py-2 px-3">
-                      Laptop
+                      Popular
                     </span>
                     <span className="badge bg-light text-secondary rounded-3 py-2 px-3">
-                      Mobile
-                    </span>
-                    <span className="badge bg-light text-secondary rounded-3 py-2 px-3">
-                      cameras
-                    </span>
-                    <span className="badge bg-light text-secondary rounded-3 py-2 px-3">
-                      Tv
+                      Special
                     </span>
                   </div>
                 </div>
@@ -241,8 +245,10 @@ const Store = () => {
               </div>
               <div className="products-list pb-5">
                 <div className="d-flex gap-10 flex-wrap">
-                  <ProductCard grid={grid} />
-                  <ProductCard grid={grid} />
+                  {products &&
+                    products.map((product) => (
+                      <ProductCard grid={grid} product={product} />
+                    ))}
                 </div>
               </div>
             </div>

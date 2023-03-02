@@ -16,6 +16,9 @@
 body {
   font-family: "Work Sans", sans-serif;
 }
+.family {
+  font-family: "Work Sans", sans-serif;
+}
 .button {
   background-color: var(--color-header-bottom);
   color: white;
@@ -271,7 +274,7 @@ footer .input-group-text {
   width: 100%;
 }
 .product-card .product-image {
-  height: 270px;
+  height: 250px !important;
 }
 .product-card .product-image img {
   object-fit: contain;
@@ -394,7 +397,7 @@ footer .input-group-text {
 .colors li {
   width: 20px;
   height: 20px;
-  background-color: red;
+  /* background-color: red; */
   border-radius: 50%;
 }
 .random-products h5 {
@@ -438,11 +441,21 @@ footer .input-group-text {
 }
 .gr-12 .product-card {
   display: flex;
+  flex-direction: row;
   gap: 20px;
+}
+.gr-12 .product-card .product-image{
+  display: flex;
+  flex: 1;
+}
+.gr-12 .product-card .product-details{
+  display: flex;
+  flex-direction: column;
+  flex: 4;
 }
 .gr-12 .product-card .product-image {
   width: 270px;
-  height: auto;
+  height: 250px;
 }
 .gr-12 .action-bar {
   top: 14%;
@@ -586,11 +599,12 @@ footer .input-group-text {
 }
 .main-product-image > div {
   border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
 }
 .main-product-image img {
   width: 600px !important;
   height: 500px !important;
-  object-fit: cover;
+  object-fit: contain !important;
 }
 .other-product-images {
   background-color: white;
@@ -607,8 +621,9 @@ footer .input-group-text {
   object-fit: cover;
   width: 100%;
 }
-.main-product-image .js-image-zoom__zoomed-image {
-  left: 60px !important;
+.js-image-zoom__zoomed-image {
+  position: absolute;
+  left: 650px !important;
   padding: 10px;
   background-color: white;
   border-radius: 10px;
@@ -623,13 +638,13 @@ footer .input-group-text {
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
 .main-product-details h3 {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
   color: #1c1c1b;
   /* margin-bottom: 10px; */
 }
 .main-product-details p {
-  font-size: 18px;
+  font-size: 13px;
   /* font-weight: 600; */
   line-height: 20px;
   /* margin-top: 10px; */
@@ -699,7 +714,15 @@ footer .input-group-text {
   font-size: 18px;
   font-weight: 500;
 }
-.checkout-heading{
+.checkout-heading {
   font-size: 24px;
   font-weight: 200;
+}
+.form-control::placeholder {
+  font-size: 14px;
+  font-family: "Work Sans", sans-serif;
+}
+.error {
+  color: #e52e2e;
+  font-size: 12px;
 }

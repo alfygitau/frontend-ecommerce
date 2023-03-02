@@ -117,7 +117,7 @@ const Homepage = () => {
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">
-              <div className="services d-flex align-items-center justify-content-between">
+              <div className="services d-flex align-items-center justify-content-between family">
                 <div className="d-flex align-items-center gap-15">
                   <img src={services1} alt="services" />
                   <div>
@@ -158,7 +158,7 @@ const Homepage = () => {
           </div>
         </div>
       </section>
-      <section className="home-wrapper-2 py-5">
+      <section className="home-wrapper-2 py-5 family">
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">
@@ -224,7 +224,7 @@ const Homepage = () => {
           </div>
         </div>
       </section>
-      <section className="featured-wrapper py-5 home-wrapper-2">
+      <section className="featured-wrapper py-5 home-wrapper-2 family">
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">
@@ -237,7 +237,7 @@ const Homepage = () => {
           </div>
         </div>
       </section>
-      <section className="famous-wrapper py-5 home-wrapper-2">
+      <section className="famous-wrapper py-2 home-wrapper-2 family">
         <div className="container-xxl">
           <div className="row">
             <div className="col-3">
@@ -301,7 +301,7 @@ const Homepage = () => {
           </div>
         </div>
       </section>
-      <section className="popular-wrapper py-5 home-wrapper-2">
+      <section className="popular-wrapper home-wrapper-2">
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">

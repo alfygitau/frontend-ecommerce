@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BreadCrumb from "../components/BreadCrumb";
 import ProductCard from "../components/cards/ProductCard";
 import Meta from "../components/Meta";
@@ -8,17 +8,31 @@ import watch from "../assets/images/watch.jpg";
 import Color from "../components/Color";
 import { TbGitCompare } from "react-icons/tb";
 import { AiOutlineHeart } from "react-icons/ai";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getProduct } from "../features/products/productSlice";
+import ReactImageMagnify from "react-image-magnify";
 
 const Product = () => {
   const [orderedProduct, setOrderedProduct] = useState(true);
+  let { id } = useParams();
+  // console.log(id)
+  let dispatch = useDispatch();
+
+  const { product } = useSelector((state) => state.products);
+
+  useEffect(() => {
+    dispatch(getProduct(id));
+  }, [id, dispatch]);
 
   let link =
     "https://riogiftshop.com/wp-content/uploads/2021/04/3b12fbde-4693-4d60-87d5-3214e88efe96.jpg";
+
   const props = {
     width: 600,
     height: 500,
     zoomWidth: 600,
-    img: link,
+    img: product?.images[0]?.url,
   };
 
   const copyToClipboard = (text) => {
@@ -34,16 +48,27 @@ const Product = () => {
   return (
     <>
       {/* dynamic value */}
-      <Meta title="product-title" />
-      <BreadCrumb title="product-title" />
-      <div className="product-wrapper home-wrapper-2 py-5">
+      <Meta title={`${product?.title}`} />
+      <BreadCrumb title={product?.title} />
+      <div className="product-wrapper home-wrapper-2 py-3">
         <div className="container-xxl">
           <div className="row">
             <div className="col-6">
-              <div className="main-product-image">
-                <div>
-                  <ReactImageZoom {...props} />
-                </div>
+              <div className="main-product-image position-relative">
+                <ReactImageMagnify
+                  {...{
+                    smallImage: {
+                      isFluidWidth: true,
+                      src: product?.images[0]?.url,
+                    },
+                    largeImage: {
+                      src: product?.images[0]?.url,
+                      width: 1200,
+                      height: 900,
+                    },
+                  }}
+                  enlargedImageContainerClassName="js-image-zoom__zoomed-image"
+                />
               </div>
               <div className="other-product-images d-flex flex-wrap gap-15 justify-content-center">
                 <div>
@@ -63,16 +88,19 @@ const Product = () => {
             <div className="col-6">
               <div className="main-product-details">
                 <div className="border-bottom">
-                  <h3>
-                    Kids Headphones Bulk 10 Pack multi colored for Students
-                  </h3>
+                  <h3>{product?.title}</h3>
                 </div>
                 <div className="border-bottom py-3">
-                  <p className="price">$ 100</p>
+                  <p className="price">
+                    {product?.price.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </p>
                   <div className="d-flex align-items-center gap-10">
                     <ReactStars
                       count={5}
-                      value={3}
+                      value={product?.totalratings}
                       edit={false}
                       size={24}
                       activeColor="#ffd700"
@@ -84,24 +112,19 @@ const Product = () => {
                 <div className="border-bottom py-1">
                   <div className="d-flex gap-10 align-items-center my-1 review-data">
                     <h3 className="product-heading">Type:</h3>
-                    <p className="product-data">Headsets</p>
+                    <p className="product-data">{product?.category}</p>
                   </div>
                   <div className="d-flex gap-10 align-items-center my-1">
                     <h3 className="product-heading">Brand:</h3>
-                    <p className="product-data">Havels</p>
+                    <p className="product-data">{product?.brand}</p>
                   </div>
                   <div className="d-flex gap-10 align-items-center my-1">
-                    <h3 className="product-heading">Categories:</h3>
-                    <p className="product-data">
-                      Computer and laptops, headphones, mini speakers, Our
-                      store, portable speakers
-                    </p>
+                    <h3 className="product-heading">Category:</h3>
+                    <p className="product-data">{product?.category}</p>
                   </div>
                   <div className="d-flex gap-10 align-items-center my-1">
                     <h3 className="product-heading">Tags:</h3>
-                    <p className="product-data">
-                      Headphones, laptops, mobile, oppo, speakers
-                    </p>
+                    <p className="product-data">{product?.tags}</p>
                   </div>
                   <div className="d-flex gap-10 align-items-center my-1">
                     <h3 className="product-heading">Availability:</h3>
@@ -126,7 +149,7 @@ const Product = () => {
                   </div>
                   <div className="d-flex gap-10 flex-column my-1">
                     <h3 className="product-heading">Color:</h3>
-                    <Color />
+                    <Color color={product?.color} />
                   </div>
                   <div className="d-flex gap-10 flex-row align-items-center my-1">
                     <h3 className="product-heading">Quantity:</h3>
@@ -182,17 +205,16 @@ const Product = () => {
           </div>
         </div>
       </div>
-      <section className="description-wrapper py-3 home-wrapper-2">
+      <section className="description-wrapper home-wrapper-2">
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">
               <h4>Description</h4>
               <div className="bg-white p-3">
                 <p className="bg-white">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum
-                  cupiditate debitis aspernatur, voluptates praesentium labore
-                  inventore minus soluta impedit ullam, sit doloremque
-                  dignissimos? Dolorem veniam molestias non ut commodi ducimus!
+                  <span
+                    dangerouslySetInnerHTML={{ __html: product?.description }}
+                  />
                 </p>
               </div>
             </div>

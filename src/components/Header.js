@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import compare from "../assets/images/compare.svg";
@@ -7,7 +7,22 @@ import user from "../assets/images/user.svg";
 import cart from "../assets/images/cart.svg";
 import menu from "../assets/images/menu.svg";
 
+import { useSelector, useDispatch } from "react-redux";
+import { getProductCategories } from "../features/product-categories/productCategorySlice";
+
 const Header = () => {
+  const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  let dispatch = useDispatch();
+  const { productCategories } = useSelector(
+    (state) => state.product_categories
+  );
+
+  useEffect(() => {
+    dispatch(getProductCategories());
+  }, []);
+
   return (
     <>
       <header className="header-top-strip py-3">
@@ -47,6 +62,7 @@ const Header = () => {
                   placeholder="Search products, brands and categories"
                   aria-label="Search products, brands and categories"
                   aria-describedby="basic-addon2"
+                  onChange={(e) => setSearch(e.target.value)}
                 />
                 <span
                   className="input-group-text search-icon"
@@ -131,21 +147,17 @@ const Header = () => {
                       </span>
                     </button>
                     <ul className="dropdown-menu">
-                      <li>
-                        <Link className="dropdown-item text-white" to="links">
-                          Action
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item text-white" to="links">
-                          Another action
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item text-white" to="links">
-                          Something else here
-                        </Link>
-                      </li>
+                      {productCategories &&
+                        productCategories.map((category) => (
+                          <li>
+                            <Link
+                              className="dropdown-item text-white"
+                              to="links"
+                            >
+                              {category.title}
+                            </Link>
+                          </li>
+                        ))}
                     </ul>
                   </div>
                 </div>

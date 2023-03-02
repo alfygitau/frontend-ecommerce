@@ -1,12 +1,11 @@
 import React from "react";
 
-const Color = () => {
+const Color = ({ color }) => {
   return (
     <>
       <ul className="colors ps-0">
-        <li></li>
-        <li></li>
-        <li></li>
+        {color &&
+          color.map((c) => <li style={{ backgroundColor: `${c?.value}` }}></li>)}
       </ul>
     </>
   );
