@@ -4,7 +4,7 @@ import { BsSearch } from "react-icons/bs";
 import compare from "../assets/images/compare.svg";
 import wishlist from "../assets/images/wishlist.svg";
 import user from "../assets/images/user.svg";
-import cart from "../assets/images/cart.svg";
+import carticon from "../assets/images/cart.svg";
 import menu from "../assets/images/menu.svg";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -18,6 +18,8 @@ const Header = () => {
   const { productCategories } = useSelector(
     (state) => state.product_categories
   );
+
+  const { cart } = useSelector((state) => state.cart);
 
   useEffect(() => {
     dispatch(getProductCategories());
@@ -116,9 +118,9 @@ const Header = () => {
                     to="cart"
                     className="d-flex align-items-center gap-10 text-white"
                   >
-                    <img src={cart} alt="cart" className="links-icons" />
+                    <img src={carticon} alt="cart" className="links-icons" />
                     <div className="d-flex flex-column gap-10">
-                      <span className="badge bg-white text-dark">0</span>
+                      <span className="badge bg-white text-dark">{cart?.length}</span>
                       <p className="mb-0">$500</p>
                     </div>
                   </Link>
