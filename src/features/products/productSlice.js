@@ -81,6 +81,18 @@ export const getSpecificCategoryProducts = createAsyncThunk(
   }
 );
 
+export const searchAllProducts = createAsyncThunk(
+  "search-products",
+  async (query, thunkAPI) => {
+    try {
+      return await productService.searchProducts(query);
+    } catch (error) {
+      const { message } = error.response.data;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "all-products",
   initialState,
@@ -161,6 +173,19 @@ const productSlice = createSlice({
         state.productsOfCategory = action.payload;
       })
       .addCase(getSpecificCategoryProducts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(searchAllProducts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(searchAllProducts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.searchResults = action.payload;
+      })
+      .addCase(searchAllProducts.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

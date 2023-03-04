@@ -10,12 +10,14 @@ import compare from "../../assets/images/prodcompare.svg";
 import wish from "../../assets/images/wish.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../features/cart/cartSlice";
+import { addToWishlist } from "../../features/wishlist/wishlistSlice";
 
 const ProductCard = ({ grid, product }) => {
   let location = useLocation();
   let dispatch = useDispatch();
 
   let { cart } = useSelector((state) => state.cart);
+  let { wishlist } = useSelector((state) => state.wishlist);
 
   const handleAddToCart = (product) => {
     dispatch(addToCart({ product, color: product?.color }));
@@ -23,7 +25,8 @@ const ProductCard = ({ grid, product }) => {
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  }, [cart, wishlist]);
 
   return (
     <div
@@ -31,7 +34,10 @@ const ProductCard = ({ grid, product }) => {
     >
       <div className="product-card position-relative">
         <div className="wishlist-icon position-absolute">
-          <button className="border-0 bg-transparent">
+          <button
+            onClick={() => dispatch(addToWishlist(product))}
+            className="border-0 bg-transparent"
+          >
             <img src={wish} alt="wishlist icon" />
           </button>
         </div>

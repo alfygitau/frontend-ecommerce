@@ -6,13 +6,15 @@ import wishlist from "../assets/images/wishlist.svg";
 import user from "../assets/images/user.svg";
 import carticon from "../assets/images/cart.svg";
 import menu from "../assets/images/menu.svg";
+import { AutoComplete, InputGroup } from "rsuite";
+import SearchIcon from "@rsuite/icons/Search";
 
 import { useSelector, useDispatch } from "react-redux";
 import { getProductCategories } from "../features/product-categories/productCategorySlice";
+import { searchAllProducts } from "../features/products/productSlice";
 
 const Header = () => {
-  const [search, setSearch] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [value, setValue] = React.useState("");
 
   let dispatch = useDispatch();
   const { productCategories } = useSelector(
@@ -20,10 +22,25 @@ const Header = () => {
   );
 
   const { cart } = useSelector((state) => state.cart);
+  const { searchResults } = useSelector((state) => state.products);
+
+  useEffect(() => {
+    dispatch(searchAllProducts(value));
+  }, [value, dispatch]);
 
   useEffect(() => {
     dispatch(getProductCategories());
   }, []);
+
+  const styles = {
+    width: 500,
+    marginBottom: 10,
+  };
+
+  const handleSelect = (item) => {
+    let selected = searchResults?.filter((res) => res?.title === item);
+    console.log(selected);
+  };
 
   return (
     <>
@@ -57,21 +74,18 @@ const Header = () => {
               </h3>
             </div>
             <div className="col-5">
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search products, brands and categories"
-                  aria-label="Search products, brands and categories"
-                  aria-describedby="basic-addon2"
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-                <span
-                  className="input-group-text search-icon"
-                  id="basic-addon2"
-                >
-                  <BsSearch />
-                </span>
+              <div>
+                <InputGroup inside style={styles}>
+                  <AutoComplete
+                    value={value}
+                    onChange={setValue}
+                    data={searchResults?.map((product) => product?.title)}
+                    onSelect={handleSelect}
+                  />
+                  <InputGroup.Addon>
+                    <SearchIcon />
+                  </InputGroup.Addon>
+                </InputGroup>
               </div>
             </div>
             <div className="col-5">
@@ -120,7 +134,9 @@ const Header = () => {
                   >
                     <img src={carticon} alt="cart" className="links-icons" />
                     <div className="d-flex flex-column gap-10">
-                      <span className="badge bg-white text-dark">{cart?.length}</span>
+                      <span className="badge bg-white text-dark">
+                        {cart?.length}
+                      </span>
                       <p className="mb-0">$500</p>
                     </div>
                   </Link>

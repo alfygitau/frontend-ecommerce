@@ -66,12 +66,24 @@ let getSpecificCategoryProducts = async (category) => {
   return data;
 };
 
+let searchProducts = async (query) => {
+  let res = await fetch(`${base_url}/api/product/search?title=${query}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  let data = await res.json();
+  return data;
+};
+
 const productService = {
   getAllProducts,
   getSingleProduct,
   getFeaturedProducts,
   getPopularProducts,
   getSpecialProducts,
-  getSpecificCategoryProducts
+  getSpecificCategoryProducts,
+  searchProducts
 };
 export default productService;

@@ -36,9 +36,9 @@ const Cart = () => {
                     className="cart-data d-flex mb-2 align-items-center justify-content-between"
                   >
                     <div className="cart-col-1 d-flex gap-15 py-2 align-items-center">
-                      <div className="w-25">
+                      <div className="w-25" style={{height:"140px"}}>
                         <img
-                          className="img-fluid"
+                          className="img-fluid w-100 h-100"
                           src={item?.product?.images[0]?.url}
                           alt="watch"
                         />
