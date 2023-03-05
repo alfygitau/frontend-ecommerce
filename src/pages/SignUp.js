@@ -3,9 +3,12 @@ import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../features/user/userSlice";
 
 let schema = Yup.object().shape({
-  name: Yup.string().required("Name is required"),
+  firstname: Yup.string().required("Firsname is required"),
+  lastname: Yup.string().required("Lastname is required"),
   email: Yup.string()
     .email("Email should be valid")
     .required("Email is required"),
@@ -14,16 +17,19 @@ let schema = Yup.object().shape({
 });
 
 const SignUp = () => {
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
-      name: "",
+      firstname: "",
+      lastname: "",
       email: "",
       mobile: "",
       password: "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values));
+      dispatch(registerUser(values));
       formik.resetForm();
     },
   });
@@ -46,15 +52,30 @@ const SignUp = () => {
                   <div>
                     <input
                       type="text"
-                      name="name"
-                      placeholder="Enter Name"
+                      name="firstname"
+                      placeholder="Enter firstname"
                       className="form-control"
                       onChange={formik.handleChange}
-                      value={formik.values.name}
+                      value={formik.values.firstname}
                     />
                     <div className="error">
-                      {formik.touched.name && formik.errors.name ? (
-                        <div>{formik.errors.name}</div>
+                      {formik.touched.firstname && formik.errors.firstname ? (
+                        <div>{formik.errors.firstname}</div>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      name="lastname"
+                      placeholder="Enter lastname"
+                      className="form-control"
+                      onChange={formik.handleChange}
+                      value={formik.values.lastname}
+                    />
+                    <div className="error">
+                      {formik.touched.lastname && formik.errors.lastname ? (
+                        <div>{formik.errors.lastname}</div>
                       ) : null}
                     </div>
                   </div>
