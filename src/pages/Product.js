@@ -50,12 +50,11 @@ const Product = () => {
       {/* dynamic value */}
       <Meta title={`${product?.title}`} />
       <BreadCrumb title={product?.title} />
-      {isLoading && (
+      {isLoading ? (
         <div className="spinner">
           <Spinner />
         </div>
-      )}
-      {isSuccess && (
+      ) : (
         <>
           <div className="product-wrapper home-wrapper-2 py-3">
             <div className="container-xxl">
