@@ -768,4 +768,18 @@ footer .input-group-text {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 60vh;
+}
+.cart-quantity{
+  width: 250px;
+  background-color: var(--color-header-bottom);
+  color: white;
+  font-size: 20px;
+  padding: 7px 33px;
+  justify-content: space-between;
+  border-radius: 25px;
+}
+.cart-span{
+  cursor: pointer;
+  font-size: 20px;
 }

@@ -22,6 +22,18 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+export const loginUser = createAsyncThunk(
+  "auth/login",
+  async (userData, thunkAPI) => {
+    try {
+      return await userService.login(userData);
+    } catch (error) {
+      let { message } = error.response.data;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "auth",
   initialState,
@@ -41,6 +53,28 @@ const userSlice = createSlice({
         state.createdUser = action.payload;
       })
       .addCase(registerUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.errorMessage = action.error;
+        if (state.isError === true) {
+          toast.error(action.error);
+        }
+      })
+      .addCase(loginUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        if (state.isSuccess === true) {
+          localStorage.setItem("token", JSON.stringify(action?.payload?.token))
+          toast.info("User logged in successfully");
+        }
+        state.user = action.payload;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

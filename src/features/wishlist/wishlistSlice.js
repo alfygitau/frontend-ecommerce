@@ -23,6 +23,7 @@ const wishlistSlice = createSlice({
       state.wishlist = state.wishlist.filter(
         (item) => item._id !== action.payload._id
       );
+      localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
     },
   },
   extraReducers: (builder) => {},

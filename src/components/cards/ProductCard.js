@@ -31,6 +31,7 @@ const ProductCard = ({ grid, product }) => {
   return (
     <div
       className={`${location.pathname === "/store" ? `gr-${grid}` : "col-3"}`}
+      style={{marginBottom:"20px"}}
     >
       <div className="product-card position-relative">
         <div className="wishlist-icon position-absolute">

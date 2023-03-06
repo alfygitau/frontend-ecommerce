@@ -26,6 +26,7 @@ const cartSlice = createSlice({
       state.cart = state.cart?.filter(
         (item) => item.product._id !== action.payload.product._id
       );
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     incrementCount: (state, action) => {
       const item = state.cart.find(

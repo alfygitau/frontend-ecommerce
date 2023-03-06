@@ -12,5 +12,17 @@ let register = async (userInfo) => {
   return data;
 };
 
-const userService = { register };
+let login = async (userInfo) => {
+  let res = await fetch(`${base_url}/api/user/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userInfo),
+  });
+  let data = await res.json();
+  return data;
+};
+
+const userService = { register, login };
 export default userService;

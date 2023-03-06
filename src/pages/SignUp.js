@@ -56,6 +56,7 @@ const SignUp = () => {
                       placeholder="Enter firstname"
                       className="form-control"
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       value={formik.values.firstname}
                     />
                     <div className="error">
@@ -72,6 +73,7 @@ const SignUp = () => {
                       className="form-control"
                       onChange={formik.handleChange}
                       value={formik.values.lastname}
+                      onBlur={formik.handleBlur}
                     />
                     <div className="error">
                       {formik.touched.lastname && formik.errors.lastname ? (

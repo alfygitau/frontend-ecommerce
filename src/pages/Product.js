@@ -10,22 +10,36 @@ import { TbGitCompare } from "react-icons/tb";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Button } from "rsuite";
 import {
   getProduct,
   getSpecificCategoryProducts,
 } from "../features/products/productSlice";
 import ReactImageMagnify from "react-image-magnify";
 import Spinner from "../components/Spinner";
+import {
+  addToCart,
+  decreaseCount,
+  incrementCount,
+} from "../features/cart/cartSlice";
 
 const Product = () => {
   const [orderedProduct, setOrderedProduct] = useState(true);
   let { id } = useParams();
-  // console.log(id)
   let dispatch = useDispatch();
 
   const { isLoading, isSuccess, product, productsOfCategory } = useSelector(
     (state) => state.products
   );
+
+  const { cart } = useSelector((state) => state.cart);
+
+  let alreadyInCart = cart?.find((item) => item?.product?._id === product?._id);
+
+  let productInCart = cart?.filter(
+    (item) => item?.product?._id === product?._id
+  );
+  let count = productInCart[0]?.count;
 
   useEffect(() => {
     dispatch(getProduct(id));
@@ -45,9 +59,12 @@ const Product = () => {
     textField.remove();
   };
 
+  const handleAddToCart = (product) => {
+    dispatch(addToCart({ product, color: product?.color }));
+  };
+
   return (
     <>
-      {/* dynamic value */}
       <Meta title={`${product?.title}`} />
       <BreadCrumb title={product?.title} />
       {isLoading ? (
@@ -151,9 +168,35 @@ const Product = () => {
                         <p className="product-data">{product?.quantity}</p>
                       </div>
                       <div className="d-flex align-items-center gap-10 mb-2">
-                        <button className="button border-0 cart-button">
-                          Add To Cart
-                        </button>
+                        {alreadyInCart ? (
+                          <div className="d-flex align-items-center gap-15 cart-quantity">
+                            <span
+                              className="cart-span"
+                              onClick={() =>
+                                dispatch(decreaseCount(productInCart[0]))
+                              }
+                            >
+                              -
+                            </span>
+                            <p>{count}</p>
+                            <span
+                              className="cart-span"
+                              onClick={() =>
+                                dispatch(incrementCount(productInCart[0]))
+                              }
+                            >
+                              +
+                            </span>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => handleAddToCart(product)}
+                            className="button border-0 cart-button"
+                          >
+                            Add To Cart
+                          </button>
+                        )}
+
                         <button className="button signup cart-button">
                           Buy it Now
                         </button>

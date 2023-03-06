@@ -134,10 +134,23 @@ const Header = () => {
                   >
                     <img src={carticon} alt="cart" className="links-icons" />
                     <div className="d-flex flex-column gap-10">
-                      <span className="badge bg-white text-dark">
-                        {cart?.length}
+                      <span
+                        style={{ width: "20px" }}
+                        className="badge bg-white text-dark"
+                      >
+                        {cart?.reduce((acc, cv) => acc + cv.count, 0)}
                       </span>
-                      <p className="mb-0">$500</p>
+                      <p className="mb-0">
+                        {cart
+                          ?.reduce(
+                            (acc, cv) => acc + cv?.count * cv?.product?.price,
+                            0
+                          )
+                          .toLocaleString("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                          })}
+                      </p>
                     </div>
                   </Link>
                 </div>
