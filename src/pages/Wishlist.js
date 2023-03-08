@@ -26,7 +26,7 @@ const Wishlist = () => {
                 {wishlist &&
                   wishlist.map((product) => (
                     <div className="col-3">
-                      <div className="wishlist-card position-relative">
+                      <div className="bg-white wishlist-card position-relative">
                         <img
                           src={cross}
                           alt="watch"
