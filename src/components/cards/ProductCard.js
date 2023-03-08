@@ -31,7 +31,7 @@ const ProductCard = ({ grid, product }) => {
   return (
     <div
       className={`${location.pathname === "/store" ? `gr-${grid}` : "col-3"}`}
-      style={{marginBottom:"20px"}}
+      style={{ marginBottom: "20px" }}
     >
       <div className="product-card position-relative">
         <div className="wishlist-icon position-absolute">
@@ -49,7 +49,12 @@ const ProductCard = ({ grid, product }) => {
             className="img-fluid"
             style={{ objectFit: "contain", height: "100%", width: "100%" }}
           />
-          <img src={headphone} alt="product" className="img-fluid" />
+          <img
+            src={product?.images[1]?.url}
+            alt="product"
+            className="img-fluid"
+            style={{ objectFit: "contain", height: "100%", width: "100%" }}
+          />
         </div>
         <div className="product-details">
           <h6 className="brand">{product?.brand}</h6>
