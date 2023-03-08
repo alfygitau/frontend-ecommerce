@@ -93,6 +93,18 @@ export const searchAllProducts = createAsyncThunk(
   }
 );
 
+export const sortProductsByQuery = createAsyncThunk(
+  "sort-products",
+  async (query, thunkAPI) => {
+    try {
+      return await productService.sortProductsByQuery(query);
+    } catch (error) {
+      const { message } = error.response.data;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "all-products",
   initialState,
@@ -186,6 +198,19 @@ const productSlice = createSlice({
         state.searchResults = action.payload;
       })
       .addCase(searchAllProducts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(sortProductsByQuery.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(sortProductsByQuery.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.sortedProducts = action.payload;
+      })
+      .addCase(sortProductsByQuery.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
